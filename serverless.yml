@@ -1,0 +1,43 @@
+service: RestApi
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  timeout: 15
+  region: ap-southeast-1
+
+functions:
+  main:
+    handler: src/app.handler
+
+    events:
+      #- http: ANY /
+      #- http: "ANY {proxy+}"
+      - http: ANY /{proxy+}
+      - http: ANY /
+
+      - http:
+          path: /
+          method: get
+    #    Define function environment variables here
+    environment:
+      GOOGLE_CLIENT_ID: 357230215975-nq52palci1n06no8n07grgvce2t6j7gu.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      FACEBOOK_CLIENT_ID: 1025419394814261
+      FACEBOOK_CLIENT_SECRET: 8c0c7009c9deb22b36d43b423ab79fdf
+      secret: secret
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+#custom:
+
+#  serverlessPluginTypescript:
+
+#    tsConfigFileLocation: './tsconfig.json'
